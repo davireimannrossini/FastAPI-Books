@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, HTTPException, status, Path, Depends
 from config import SessionLocal
 from sqlalchemy.orm import Session
 from schemas import BookSchema,RequestBook,Response
@@ -23,13 +23,13 @@ async def create(request: RequestBook, db: Session = Depends(get_db)):
 @router.get('/')
 async def get(db: Session = Depends(get_db)):
     _book = crud.get_book(db, 0, 100)
-    return Response(code=200,status="Sucesso",message="Sucesso ao listar todos os livros").dict(exclude_none=True)
+    return Response(code=200,status="Sucesso",message="Sucesso ao listar todos os livros", result=_book).dict(exclude_none=True)
 
 # Listar um livro por id
 @router.get('/{id}')
 async def get_by_id(id:int, db: Session = Depends(get_db)):
     _book = crud.get_book(db,id)
-    return Response(code=200,status="Sucesso",message="Sucesso ao listar o livro").dict(exclude_none=True)
+    return Response(code=200,status="Sucesso",message="Sucesso ao listar o livro", result=_book).dict(exclude_none=True)
 
 # Atualizar um livro
 @router.post('/update')
