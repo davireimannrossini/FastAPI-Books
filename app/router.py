@@ -20,16 +20,16 @@ async def create(request: RequestBook, db: Session = Depends(get_db)):
     return Response(code=200,status="Sucesso",message="Livro criado com sucesso").dict(exclude_none=True)
 
 # Listar todos os livros
-@router.get('/')
+@router.get('/', status_code=200, response_model=list[BookSchema])
 async def get(db: Session = Depends(get_db)):
     _book = crud.get_book(db, 0, 100)
-    return Response(code=200,status="Sucesso",message="Sucesso ao listar todos os livros", result=_book).dict(exclude_none=True)
+    return _book
 
 # Listar um livro por id
-@router.get('/{id}')
+@router.get('/{id}', status_code=201, response_model=BookSchema)
 async def get_by_id(id:int, db: Session = Depends(get_db)):
-    _book = crud.get_book(db,id)
-    return Response(code=200,status="Sucesso",message="Sucesso ao listar o livro", result=_book).dict(exclude_none=True)
+    _book = crud.get_book_by_id(db,id)
+    return _book
 
 # Atualizar um livro
 @router.post('/update')

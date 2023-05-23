@@ -3,20 +3,14 @@ from model import Book
 from schemas import BookSchema
 
 # TODOS OS LIVROS
-
-
 def get_book(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Book).offset(skip).limit(limit).all()
 
-# UM LIVRO POR ID
-
-
+# PEGA UM LIVRO POR ID
 def get_book_by_id(db: Session, book_id: int):
     return db.query(Book).filter(Book.id == book_id).first()
 
 # CRIA LIVRO
-
-
 def create_book(db: Session, book: BookSchema):
     _book = Book(title=book.title, description=book.description)
     db.add(_book)

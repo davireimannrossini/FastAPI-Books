@@ -2,7 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 import model
 from config import engine
-import router
+import app.router as router
 
 model.Base.metadata.create_all(bind=engine)
 
